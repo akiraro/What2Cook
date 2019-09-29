@@ -1,18 +1,19 @@
 import React, { Component } from "react";
 import Input from "./input";
 
-export default class login extends Component {
+export default class signup extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       user: {
+        name: "",
         email: "",
-        password: ""
+        password: "",
+        repassword: ""
       }
     };
   }
-
   handleChange = e => {
     const { name, value } = e.target;
     this.setState({
@@ -26,37 +27,58 @@ export default class login extends Component {
   handleClick = e => {
     e.preventDefault();
     console.log(this.state);
+    this.validate() ? alert("True") : alert("False");
   };
+
+  validate() {
+    if (this.state.user.password === this.state.user.repassword) {
+      return true;
+    }
+    return false;
+  }
 
   render() {
     return (
       <div>
         <form>
-          <h4>Email</h4>
+          <h5>Name</h5>
           <Input
-            icon="fas fa-user"
             type="text"
-            name="email"
-            placeholder="Email"
+            name="name"
+            placeholder="Name"
             onChange={this.handleChange}
           />
 
-          <h4 className="mt-3">Password</h4>
+          <h5 className="mt-3">Email</h5>
           <Input
-            icon="fas fa-key"
+            type="text"
+            name="email"
+            placeholder="email@domain.com"
+            onChange={this.handleChange}
+          />
+
+          <h5 className="mt-3">Password</h5>
+          <Input
             type="password"
             name="password"
             placeholder="Password"
             onChange={this.handleChange}
           />
+          <h5 className="mt-3">Retype Password</h5>
+          <Input
+            type="password"
+            name="repassword"
+            placeholder="Retype Password"
+            onChange={this.handleChange}
+          />
 
-          <div className="col text-center">
+          <div className="text-center">
             <button
               type="submit"
               className="btn mt-3 btn-primary"
               onClick={this.handleClick}
             >
-              Login
+              Register
             </button>
           </div>
         </form>

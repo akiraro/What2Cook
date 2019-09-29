@@ -1,14 +1,10 @@
 import React, { Component } from "react";
 import Login from "./login";
-import Signup from "./signup";
+import Signup from "../signup/signup";
 
 export default class index extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      isLogging: true
-    };
   }
 
   render() {
