@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import Input from "./input";
 
+const config = require("../../config").link;
+const axios = require("axios");
+
 export default class login extends Component {
   constructor(props) {
     super(props);
@@ -26,6 +29,17 @@ export default class login extends Component {
   handleClick = e => {
     e.preventDefault();
     console.log(this.state);
+
+    const link = config + "auth/signin";
+    var bodyReq = {
+      email: this.state.user.email,
+      password: this.state.user.password
+    };
+
+    console.log(bodyReq);
+    axios.post(link, bodyReq).then(response => {
+      console.log(response);
+    });
   };
 
   render() {

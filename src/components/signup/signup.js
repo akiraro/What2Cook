@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import Input from "./input";
 
+const config = require("../../config").link;
+const axios = require("axios");
+
 export default class signup extends Component {
   constructor(props) {
     super(props);
@@ -27,14 +30,38 @@ export default class signup extends Component {
   handleClick = e => {
     e.preventDefault();
     console.log(this.state);
-    this.validate() ? alert("True") : alert("False");
+
+    if (this.validate()) {
+      const link = config + "auth/signup";
+      var bodyReq = {
+        name: this.state.user.name,
+        email: this.state.user.email,
+        password: this.state.user.password
+      };
+
+      console.log(bodyReq);
+      axios.post(link, bodyReq).then(response => {
+        console.log(response);
+        if (response.status == 200) {
+          alert("Sign Up Successful !");
+        } else {
+          alert("Internal error");
+        }
+      });
+    } else {
+      alert("Please enter the same password");
+    }
   };
 
   validate() {
-    if (this.state.user.password === this.state.user.repassword) {
+    if (
+      this.state.user.password === this.state.user.repassword &&
+      this.state.user.password != ""
+    ) {
       return true;
+    } else {
+      return false;
     }
-    return false;
   }
 
   render() {
