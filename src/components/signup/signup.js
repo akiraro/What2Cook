@@ -4,9 +4,6 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { registerUser } from "../../store/actions/authActions";
 
-const config = require("../../config").link;
-const axios = require("axios");
-
 class signup extends Component {
   constructor(props) {
     super(props);
@@ -60,7 +57,7 @@ class signup extends Component {
   validate() {
     if (
       this.state.user.password === this.state.user.repassword &&
-      this.state.user.password != ""
+      this.state.user.password !== ""
     ) {
       return true;
     } else {

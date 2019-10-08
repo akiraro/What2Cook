@@ -2,10 +2,6 @@ import React, { Component } from "react";
 import Signup from "./signup";
 
 export default class index extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <div className="container">
@@ -21,7 +17,4 @@ export default class index extends Component {
       </div>
     );
   }
-}
-
-{
 }

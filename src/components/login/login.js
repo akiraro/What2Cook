@@ -4,9 +4,6 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { loginUser } from "../../store/actions/authActions";
 
-const config = require("../../config").link;
-const axios = require("axios");
-
 class login extends Component {
   constructor(props) {
     super(props);
@@ -15,7 +12,8 @@ class login extends Component {
       user: {
         email: "",
         password: ""
-      }
+      },
+      submitted: false
     };
   }
 
@@ -29,14 +27,21 @@ class login extends Component {
     });
   };
 
-  handleClick = e => {
+  handleSubmit = e => {
     e.preventDefault();
-    var bodyReq = {
-      email: this.state.user.email,
-      password: this.state.user.password
-    };
 
-    this.props.loginUser(bodyReq, this.props.triggerAlert);
+    const { email, password } = this.state.user;
+
+    this.setState({ submitted: true });
+
+    if (email && password) {
+      var bodyReq = {
+        email: this.state.user.email,
+        password: this.state.user.password
+      };
+
+      this.props.loginUser(bodyReq, this.props.triggerAlert);
+    }
   };
 
   render() {
@@ -49,6 +54,9 @@ class login extends Component {
             type="text"
             name="email"
             placeholder="Email"
+            data={this.state.email}
+            submitted={this.state.submitted}
+            errorMessage="Email is required"
             onChange={this.handleChange}
           />
 
@@ -58,6 +66,9 @@ class login extends Component {
             type="password"
             name="password"
             placeholder="Password"
+            data={this.state.password}
+            submitted={this.state.submitted}
+            errorMessage="Password is required"
             onChange={this.handleChange}
           />
 
@@ -65,7 +76,7 @@ class login extends Component {
             <button
               type="submit"
               className="btn mt-3 btn-primary"
-              onClick={this.handleClick}
+              onClick={this.handleSubmit}
             >
               Login
             </button>
