@@ -1,10 +1,13 @@
 import React, { Component } from "react";
 import Input from "./input";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { registerUser } from "../../store/actions/authActions";
 
 const config = require("../../config").link;
 const axios = require("axios");
 
-export default class signup extends Component {
+class signup extends Component {
   constructor(props) {
     super(props);
 
@@ -32,7 +35,6 @@ export default class signup extends Component {
     console.log(this.state);
 
     if (this.validate()) {
-      const link = config + "auth/signup";
       var bodyReq = {
         name: this.state.user.name,
         email: this.state.user.email,
@@ -40,14 +42,16 @@ export default class signup extends Component {
       };
 
       console.log(bodyReq);
-      axios.post(link, bodyReq).then(response => {
-        console.log(response);
-        if (response.status == 200) {
-          alert("Sign Up Successful !");
-        } else {
-          alert("Internal error");
-        }
-      });
+      console.log("test");
+      this.props.registerUser(bodyReq);
+      // axios.post(link, bodyReq).then(response => {
+      //   console.log(response);
+      //   if (response.status == 200) {
+      //     alert("Sign Up Successful !");
+      //   } else {
+      //     alert("Internal error");
+      //   }
+      // });
     } else {
       alert("Please enter the same password");
     }
@@ -113,3 +117,16 @@ export default class signup extends Component {
     );
   }
 }
+
+const mapStatetoProps = state => ({
+  errors: state.errors
+});
+
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators({ registerUser }, dispatch);
+};
+
+export default connect(
+  mapStatetoProps,
+  mapDispatchToProps
+)(signup);
